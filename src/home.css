@@ -1,0 +1,11 @@
+thead tr.first th,
+thead tr.first td {
+    position: sticky;
+    top: 0;
+}
+
+thead tr.second th,
+thead tr.second td {
+    position: sticky;
+    top: 33px;
+}

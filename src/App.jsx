@@ -1,35 +1,67 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Route, Routes } from "react-router-dom"
+import Login from "./pages/Login"
+import Dashboard from "./pages/Dashboard"
+import About from "./pages/About"
+import PSINavbar from "./components/PSINavbar"
+import { useEffect, useState } from "react"
+import axios from "axios"
+import PSIOffCanvas from "./components/PSIOffCanvas"
+import ICT from "./pages/ICT"
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [userInfo, setUserInfo] = useState({})
+  const [showOffCanvas, setShowOffCanvas] = useState(false);
+
+  function handleLoggedIn(theval) {
+    setIsLoggedIn(theval)
+    if (theval) {
+      const config = {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+      }
+      axios.get(import.meta.env.VITE_APP_ENDPOINT + '/user', config)
+        .then((response) => {
+          const datanya = response.data
+          setUserInfo({ ...datanya })
+        }).catch(error => {
+          console.log({ at: 'app.jsx', error })
+        })
+    }
+  }
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      handleLoggedIn(true)
+    } else {
+      handleLoggedIn(false)
+    }
+  }, [])
+
+  function handleShowOffCanvas() {
+    setShowOffCanvas(true)
+  }
+  function handleCloseOffCanvas() {
+    setShowOffCanvas(false)
+  }
+
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+      {
+        isLoggedIn ? <>
+          <PSINavbar userInfo={userInfo} onShowOffCanvas={handleShowOffCanvas} />
+          <PSIOffCanvas onLoggedIn={handleLoggedIn} showOffCanvas={showOffCanvas} userInfo={userInfo} onCloseOffCanvas={handleCloseOffCanvas} />
+        </> : ''
+      }
+      <Routes>
+        <Route path="/" element={<Login onLoggedIn={handleLoggedIn} />} />
+        <Route path="/dashboard" element={<Dashboard userInfo={userInfo} />} />
+        <Route path="/ict" element={<ICT userInfo={userInfo} />} />
+        <Route path="/about" element={<About />} />
+        <Route path="*" element={<Login onLoggedIn={handleLoggedIn} />} />
+      </Routes>
+    </div>
   )
 }
-
-export default App
