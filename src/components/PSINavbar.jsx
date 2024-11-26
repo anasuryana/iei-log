@@ -1,7 +1,8 @@
 
 import { Navbar, Nav, Container } from "react-bootstrap";
-import LinkContainer from "react-router-bootstrap/LinkContainer";
-export default function PSINavbar({ userInfo, onShowOffCanvas }) {
+import { NavLink } from "react-router";
+
+export default function PSINavbar({ userInfo, onShowOffCanvas }) {   
     return (
         <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary" data-bs-theme="dark" >
             <Container fluid>
@@ -9,12 +10,17 @@ export default function PSINavbar({ userInfo, onShowOffCanvas }) {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                        <LinkContainer to="/dashboard">
-                            <Nav.Link>Home</Nav.Link>
-                        </LinkContainer>
-                        <LinkContainer to="/about">
-                            <Nav.Link >About</Nav.Link>
-                        </LinkContainer>
+                        <Nav.Item>
+                            <NavLink to="/dashboard" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
+                                Home
+                            </NavLink>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <NavLink to="/about" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
+                                About
+                            </NavLink>
+                        </Nav.Item>
+                       
                         <Nav.Link onClick={onShowOffCanvas}>{'Hi ' + userInfo.name}</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>

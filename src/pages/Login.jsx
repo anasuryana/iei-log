@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useEffect } from "react"
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+// import { useNavigate } from "react-router"
 import PSIAlert from "../components/PSIAlert"
 
 export default function Login({ onLoggedIn }) {
@@ -10,11 +10,12 @@ export default function Login({ onLoggedIn }) {
     const [userPassword, setUserPassword] = useState('')
     const [messageFromServer, setMessageFromServer] = useState('')
     const [messageFromServerType, setMessageFromServerType] = useState('warning')
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
 
     useEffect(() => {
         if (localStorage.getItem('token')) {
-            navigate('/dashboard')
+            // navigate('/dashboard')
+            window.location.href = './iei/dashboard'
             onLoggedIn(true)
         } else {
             onLoggedIn(false)
@@ -50,7 +51,8 @@ export default function Login({ onLoggedIn }) {
                 onLoggedIn(true)
                 setIsSigning(false)
                 setMessageFromServer('')
-                navigate('/dashboard')
+                // navigate('/dashboard')
+                window.location.href = './iei/dashboard'
             }).catch(error => {
                 try {
                     setMessageFromServer(error.response.data.errors.message)
