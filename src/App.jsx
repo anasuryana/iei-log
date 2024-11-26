@@ -10,7 +10,7 @@ import ICT from "./pages/ICT"
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [userInfo, setUserInfo] = useState({name : 'initializing...'})
+  const [userInfo, setUserInfo] = useState({ name: 'initializing...' })
   const [showOffCanvas, setShowOffCanvas] = useState(false);
 
   function handleLoggedIn(theval) {
@@ -58,7 +58,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Login onLoggedIn={handleLoggedIn} />} />
         <Route path="/dashboard" element={<Dashboard userInfo={userInfo} />} />
-        {/* <Route path="/ict" element={<ICT userInfo={userInfo} />} /> */}
+        <Route path="/ict" element={<ICT userInfo={userInfo} />} />
         <Route path="/about" element={<About />} />
         <Route path="*" element={<Login onLoggedIn={handleLoggedIn} />} />
       </Routes>

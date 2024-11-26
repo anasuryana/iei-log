@@ -6,7 +6,7 @@ export default function Dashboard({ userInfo }) {
     useEffect(() => {
         if (localStorage.getItem('token')) {
         } else {
-            window.location.href = '/'
+            window.location.href = '/iei'
         }
     }, [])
 

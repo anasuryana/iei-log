@@ -1,10 +1,13 @@
 import axios from "axios";
-// import { useNavigate } from "react-router";
+import { useState } from "react";
+
 import { Offcanvas } from "react-bootstrap"
 export default function PSIOffCanvas({ onLoggedIn, showOffCanvas, userInfo, onCloseOffCanvas }) {
-    // const navigate = useNavigate()
+    const [isSigning, setIsSigning] = useState(false)
     function handleSignout() {
+
         if (confirm('Are you sure ?')) {
+            setIsSigning(true)
             const config = {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -12,12 +15,14 @@ export default function PSIOffCanvas({ onLoggedIn, showOffCanvas, userInfo, onCl
             }
             axios.delete(import.meta.env.VITE_APP_ENDPOINT + '/users/logout', config)
                 .then((response) => {
+                    setIsSigning(false)
                     localStorage.removeItem('token')
                     onLoggedIn(false)
                     onCloseOffCanvas()
-                    // navigate('/')
+                    window.location.href = '/iei'
                 }).catch(error => {
                     console.log(error)
+                    setIsSigning(false)
                 })
         }
     }
@@ -27,7 +32,7 @@ export default function PSIOffCanvas({ onLoggedIn, showOffCanvas, userInfo, onCl
                 <Offcanvas.Title>{userInfo.name}</Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
-                <button className="btn btn-sm btn-danger mb-3" onClick={handleSignout}>Sign out</button><br />
+                <button disabled={isSigning} className="btn btn-sm btn-danger mb-3" onClick={handleSignout}>Sign out</button><br />
             </Offcanvas.Body>
         </Offcanvas>
     )
