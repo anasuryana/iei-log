@@ -13,7 +13,7 @@ export default function Login({ onLoggedIn }) {
 
     useEffect(() => {
         if (localStorage.getItem('token')) {
-            window.location.href = './iei/dashboard'
+            window.location.href = '/iei/dashboard'
             onLoggedIn(true)
         } else {
             onLoggedIn(false)

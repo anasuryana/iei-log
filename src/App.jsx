@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 import PSIOffCanvas from "./components/PSIOffCanvas"
 import ICT from "./pages/ICT"
+import QPIT from "./pages/QPIT"
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -60,7 +61,8 @@ export default function App() {
         <Route path="/dashboard" element={<Dashboard userInfo={userInfo} />} />
         <Route path="/ict" element={<ICT userInfo={userInfo} />} />
         <Route path="/about" element={<About />} />
-        <Route path="*" element={<Login onLoggedIn={handleLoggedIn} />} />
+        <Route path="/qpit" element={<QPIT userInfo={userInfo} />} />
+        
       </Routes>
     </div>
   )

@@ -8,7 +8,7 @@ import { faFileExcel } from "@fortawesome/free-regular-svg-icons"
 import { saveAs } from "file-saver"
 import { useRef } from "react"
 
-export default function ICT({ userInfo }) {
+export default function QPIT({ userInfo }) {
     const [formData, setFormData] = useState({
         period1: "",
         period2: "",
@@ -226,13 +226,18 @@ export default function ICT({ userInfo }) {
                                     <th rowSpan={2} className="align-middle">Assy No</th>
                                     <th rowSpan={2} className="align-middle">Type</th>
                                     <th rowSpan={2} className="align-middle">Model</th>
-                                    <th colSpan={3} className="align-middle">Error</th>
-                                    <th rowSpan={2} className="align-middle">Notes</th>
+                                    <th colSpan={4} className="align-middle">Error</th>
                                     <th rowSpan={2} className="align-middle">Line</th>
                                     <th rowSpan={2} className="align-middle">Shift</th>
-                                    <th rowSpan={2} className="align-middle">ICT No</th>
+                                    <th rowSpan={2} className="align-middle">PC No</th>
                                     <th rowSpan={2} className="align-middle">Jig No</th>
+                                    <th rowSpan={2} className="align-middle">Power Box No</th>
+                                    <th rowSpan={2} className="align-middle">QPITPC System rogram Ver</th>
+                                    <th rowSpan={2} className="align-middle">Test Program Ver</th>
+                                    <th rowSpan={2} className="align-middle">Detail Setting</th>
+                                    <th rowSpan={2} className="align-middle">Function Test Sum</th>
                                     <th rowSpan={2} className="align-middle">Operator</th>
+                                    <th rowSpan={2} className="align-middle">Password Ver</th>
                                 </tr>
                                 <tr className="second">
                                     <th style={{ whiteSpace: 'nowrap' }}>Time</th>
@@ -241,6 +246,7 @@ export default function ICT({ userInfo }) {
                                     <th style={{ whiteSpace: 'nowrap' }}>Class</th>
                                     <th style={{ whiteSpace: 'nowrap' }}>Address</th>
                                     <th style={{ whiteSpace: 'nowrap' }}>Details</th>
+                                    <th style={{ whiteSpace: 'nowrap' }}>Pin</th>
                                 </tr>
                             </thead>
                             <tbody>
