@@ -86,7 +86,7 @@ export default function QPIT({ userInfo }) {
         }
         console.log(config)
         setIsSearching(true)
-        axios.get(import.meta.env.VITE_APP_ENDPOINT + '/ict/trace-paginate?' + params + '&page=' + thePage, config)
+        axios.get(import.meta.env.VITE_APP_ENDPOINT + '/qpit/trace-paginate?' + params + '&page=' + thePage, config)
             .then((response) => {
                 const datanya = response.data.data.data
                 setRowData({
@@ -118,7 +118,7 @@ export default function QPIT({ userInfo }) {
         setIsExporting(true)
         if (confirm('Are you sure want to export the data ?')) {
             axios({
-                url: import.meta.env.VITE_APP_ENDPOINT + '/ict/trace-to-spreadsheet?' + params,
+                url: import.meta.env.VITE_APP_ENDPOINT + '/qpit/trace-to-spreadsheet?' + params,
                 method: 'GET',
                 responseType: 'blob',
                 headers: {
@@ -126,7 +126,7 @@ export default function QPIT({ userInfo }) {
                 }
             }).then(response => {
                 setIsExporting(false)
-                saveAs(response.data, 'ICT Logs ' + Date.now() + ' .xlsx')
+                saveAs(response.data, 'QPIT Logs ' + Date.now() + ' .xlsx')
             }).catch(error => {
                 setIsExporting(false)
             })
@@ -134,160 +134,172 @@ export default function QPIT({ userInfo }) {
     }
 
     return (
-        <Container fluid>
-            <form>
-                <div className="row mt-3" id="stack1">
-                    <div className="col-md-6">
-                        <div className="input-group input-group-sm mb-1">
-                            <span className="input-group-text" > Period from</span>
-                            <input type="date" className="form-control" name="period1" onChange={handleChange} ref={refInputDate1} />
-                            <span className="input-group-text" >To</span>
-                            <input type="date" className="form-control" name="period2" onChange={handleChange} ref={refInputDate2} />
+        <>
+            {
+                userInfo.name.includes('init') ? userInfo.name : <Container fluid>
+                    <form>
+                        <div className="row mt-3" id="stack1">
+                            <div className="col-md-6">
+                                <div className="input-group input-group-sm mb-1">
+                                    <span className="input-group-text" > Period from</span>
+                                    <input type="date" className="form-control" name="period1" onChange={handleChange} ref={refInputDate1} />
+                                    <span className="input-group-text" >To</span>
+                                    <input type="date" className="form-control" name="period2" onChange={handleChange} ref={refInputDate2} />
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div className="row" id="stack2">
-                    <div className="col-md-6">
-                        <div className="input-group input-group-sm mb-1">
-                            <span className="input-group-text" >Production Control</span>
-                            <input type="text" className="form-control" name="production_control" maxLength={15} onChange={handleChange} />
+                        <div className="row" id="stack2">
+                            <div className="col-md-6">
+                                <div className="input-group input-group-sm mb-1">
+                                    <span className="input-group-text" >Production Control</span>
+                                    <input type="text" className="form-control" name="production_control" maxLength={15} onChange={handleChange} />
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div className="row" id="stack3">
-                    <div className="col-md-3">
-                        <div className="input-group input-group-sm mb-1">
-                            <span className="input-group-text" >Assy No</span>
-                            <input type="text" className="form-control" name="assy_no" maxLength={50} onChange={handleChange} />
+                        <div className="row" id="stack3">
+                            <div className="col-md-3">
+                                <div className="input-group input-group-sm mb-1">
+                                    <span className="input-group-text" >Assy No</span>
+                                    <input type="text" className="form-control" name="assy_no" maxLength={50} onChange={handleChange} />
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div className="row" id="stack4">
-                    <div className="col-md-6">
-                        <div className="input-group input-group-sm mb-1">
-                            <span className="input-group-text">Type</span>
-                            <input type="text" className="form-control" name="type" maxLength={50} onChange={handleChange} />
+                        <div className="row" id="stack4">
+                            <div className="col-md-6">
+                                <div className="input-group input-group-sm mb-1">
+                                    <span className="input-group-text">Type</span>
+                                    <input type="text" className="form-control" name="type" maxLength={50} onChange={handleChange} />
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div className="row" id="stack5">
-                    <div className="col-md-6">
-                        <div className="input-group input-group-sm mb-1">
-                            <span className="input-group-text">Model</span>
-                            <input type="text" className="form-control" name="model" maxLength={50} onChange={handleChange} />
+                        <div className="row" id="stack5">
+                            <div className="col-md-6">
+                                <div className="input-group input-group-sm mb-1">
+                                    <span className="input-group-text">Model</span>
+                                    <input type="text" className="form-control" name="model" maxLength={50} onChange={handleChange} />
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div className="row" id="stack6">
-                    <div className="col-md-6">
-                        <div className="input-group input-group-sm mb-1">
-                            <span className="input-group-text">Test Result</span>
-                            <select className="form-select" name="test_result" onChange={handleChange}>
-                                <option value={'-'}>Please select</option>
-                                <option value={'PASS'}>PASS</option>
-                                <option value={'FAIL'}>FAIL</option>
-                            </select>
+                        <div className="row" id="stack6">
+                            <div className="col-md-6">
+                                <div className="input-group input-group-sm mb-1">
+                                    <span className="input-group-text">Test Result</span>
+                                    <select className="form-select" name="test_result" onChange={handleChange}>
+                                        <option value={'-'}>Please select</option>
+                                        <option value={'PASS'}>PASS</option>
+                                        <option value={'FAIL'}>FAIL</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div className="row" id="stack7">
-                    <div className="col-md-6">
-                        <div className="input-group input-group-sm mb-1">
-                            <span className="input-group-text">Line</span>
-                            <input type="text" className="form-control" name="line" maxLength={50} onChange={handleChange} />
+                        <div className="row" id="stack7">
+                            <div className="col-md-6">
+                                <div className="input-group input-group-sm mb-1">
+                                    <span className="input-group-text">Line</span>
+                                    <input type="text" className="form-control" name="line" maxLength={50} onChange={handleChange} />
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
 
-                <div className="row" id="stack8">
-                    <div className="col-md-4 mb-3">
-                        <div className="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                            <button type="button" className="btn btn-primary" disabled={isSearching} onClick={handleClickSearch}>Search</button>
-                            <button type="reset" className="btn btn-outline-primary">Reset search criteria</button>
-                            <button type="button" className="btn btn-success" title="Export to spreadsheet file" onClick={handleClickExport} disabled={isExporting}><FontAwesomeIcon icon={faFileExcel} /></button>
-                        </div>
-                    </div>
-                    <div className="col-md-4 mb-3 text-center">
+                        <div className="row" id="stack8">
+                            <div className="col-md-4 mb-3">
+                                <div className="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                    <button type="button" className="btn btn-primary" disabled={isSearching} onClick={handleClickSearch}>Search</button>
+                                    <button type="reset" className="btn btn-outline-primary">Reset search criteria</button>
+                                    <button type="button" className="btn btn-success" title="Export to spreadsheet file" onClick={handleClickExport} disabled={isExporting}><FontAwesomeIcon icon={faFileExcel} /></button>
+                                </div>
+                            </div>
+                            <div className="col-md-4 mb-3 text-center">
 
-                    </div>
-                    <div className="col-md-4 mb-3 text-end">
-                        {isSearching ? '' : <Badge bg="info">{rowData.data.length > 0 ? rowData.data.length + ' rows found (page ' + pageAt + ')' : ''}</Badge>}
-                    </div>
-                </div>
-            </form>
-            <div className="row">
-                <div className="col-md-12 mb-1">
-                    <div className="table-responsive" id="coba">
-                        <table className="table align-middle table-sm table-bordered table-hover">
-                            <thead className="text-center table-dark">
-                                <tr className="first">
-                                    <th colSpan={3} className="align-middle">Test</th>
-                                    <th rowSpan={2} className="align-middle">Production Control No</th>
-                                    <th rowSpan={2} className="align-middle">Assy No</th>
-                                    <th rowSpan={2} className="align-middle">Type</th>
-                                    <th rowSpan={2} className="align-middle">Model</th>
-                                    <th colSpan={4} className="align-middle">Error</th>
-                                    <th rowSpan={2} className="align-middle">Line</th>
-                                    <th rowSpan={2} className="align-middle">Shift</th>
-                                    <th rowSpan={2} className="align-middle">PC No</th>
-                                    <th rowSpan={2} className="align-middle">Jig No</th>
-                                    <th rowSpan={2} className="align-middle">Power Box No</th>
-                                    <th rowSpan={2} className="align-middle">QPITPC System rogram Ver</th>
-                                    <th rowSpan={2} className="align-middle">Test Program Ver</th>
-                                    <th rowSpan={2} className="align-middle">Detail Setting</th>
-                                    <th rowSpan={2} className="align-middle">Function Test Sum</th>
-                                    <th rowSpan={2} className="align-middle">Operator</th>
-                                    <th rowSpan={2} className="align-middle">Password Ver</th>
-                                </tr>
-                                <tr className="second">
-                                    <th style={{ whiteSpace: 'nowrap' }}>Time</th>
-                                    <th style={{ whiteSpace: 'nowrap' }}>Process</th>
-                                    <th style={{ whiteSpace: 'nowrap' }}>Result</th>
-                                    <th style={{ whiteSpace: 'nowrap' }}>Class</th>
-                                    <th style={{ whiteSpace: 'nowrap' }}>Address</th>
-                                    <th style={{ whiteSpace: 'nowrap' }}>Details</th>
-                                    <th style={{ whiteSpace: 'nowrap' }}>Pin</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    isSearching ? <tr><td colSpan={16}>Please wait</td></tr> : rowData.data.map((item, index) => {
-                                        return <tr key={index} className="font-monospace">
-                                            <td>{item.Test_Time}</td>
-                                            <td>{item.Test_Process}</td>
-                                            <td>{item.Test_Result}</td>
-                                            <td>{item.Production_Control_No}</td>
-                                            <td>{item.AssyNo}</td>
-                                            <td>{item.BoardNo}</td>
-                                            <td>{item.PdtNo}</td>
-                                            <td>{item.Error_Class}</td>
-                                            <td>{item.Error_Address}</td>
-                                            <td>{item.Error_Details}</td>
-                                            <td>{item.Notes}</td>
-                                            <td>{item.Line_Name}</td>
-                                            <td style={{ whiteSpace: 'nowrap' }}>{item.Shift_Name}</td>
-                                            <td>{item.ICT_No}</td>
-                                            <td>{item.Jig_No}</td>
-                                            <td>{item.Operator_Name}</td>
+                            </div>
+                            <div className="col-md-4 mb-3 text-end">
+                                {isSearching ? '' : <Badge bg="info">{rowData.data.length > 0 ? rowData.data.length + ' rows found (page ' + pageAt + ')' : ''}</Badge>}
+                            </div>
+                        </div>
+                    </form>
+                    <div className="row">
+                        <div className="col-md-12 mb-1">
+                            <div className="table-responsive" id="coba">
+                                <table className="table align-middle table-sm table-bordered table-hover">
+                                    <thead className="text-center table-dark">
+                                        <tr className="first">
+                                            <th colSpan={3} className="align-middle">Test</th>
+                                            <th rowSpan={2} className="align-middle" style={{ whiteSpace: 'nowrap' }}>Production Control No</th>
+                                            <th rowSpan={2} className="align-middle">Assy No</th>
+                                            <th rowSpan={2} className="align-middle">Type</th>
+                                            <th rowSpan={2} className="align-middle">Model</th>
+                                            <th colSpan={4} className="align-middle">Error</th>
+                                            <th rowSpan={2} className="align-middle">Line</th>
+                                            <th rowSpan={2} className="align-middle">Shift</th>
+                                            <th rowSpan={2} className="align-middle">PC No</th>
+                                            <th rowSpan={2} className="align-middle">Jig No</th>
+                                            <th rowSpan={2} className="align-middle" style={{ whiteSpace: 'nowrap' }}>Power Box No</th>
+                                            <th rowSpan={2} className="align-middle" style={{ whiteSpace: 'nowrap' }}>QPITPC System Program Ver</th>
+                                            <th rowSpan={2} className="align-middle" style={{ whiteSpace: 'nowrap' }}>Test Program Ver</th>
+                                            <th rowSpan={2} className="align-middle" style={{ whiteSpace: 'nowrap' }}>Detail Setting</th>
+                                            <th rowSpan={2} className="align-middle" style={{ whiteSpace: 'nowrap' }}>Function Test Sum</th>
+                                            <th rowSpan={2} className="align-middle">Operator</th>
+                                            <th rowSpan={2} className="align-middle" style={{ whiteSpace: 'nowrap' }}>Password Ver</th>
                                         </tr>
-                                    })
-                                }
-                            </tbody>
-                        </table>
+                                        <tr className="second">
+                                            <th style={{ whiteSpace: 'nowrap' }}>Time</th>
+                                            <th style={{ whiteSpace: 'nowrap' }}>Process</th>
+                                            <th style={{ whiteSpace: 'nowrap' }}>Result</th>
+                                            <th style={{ whiteSpace: 'nowrap' }}>Class</th>
+                                            <th style={{ whiteSpace: 'nowrap' }}>Address</th>
+                                            <th style={{ whiteSpace: 'nowrap' }}>Details</th>
+                                            <th style={{ whiteSpace: 'nowrap' }}>Pin</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            isSearching ? <tr><td colSpan={16}>Please wait</td></tr> : rowData.data.map((item, index) => {
+                                                return <tr key={index} className="font-monospace">
+                                                    <td>{item.Test_Time}</td>
+                                                    <td>{item.Test_Process}</td>
+                                                    <td>{item.Test_Result}</td>
+                                                    <td>{item.Production_Control_No}</td>
+                                                    <td>{item.AssyNo}</td>
+                                                    <td>{item.BoardNo}</td>
+                                                    <td>{item.PdtNo}</td>
+                                                    <td>{item.Error_Class}</td>
+                                                    <td>{item.Error_Address}</td>
+                                                    <td>{item.Error_Details}</td>
+                                                    <td>{item.Error_Pin_No}</td>
+                                                    <td>{item.Line_Name}</td>                                                    
+                                                    <td style={{ whiteSpace: 'nowrap' }}>{item.Shift_Name}</td>
+                                                    <td>{item.PC_No}</td>
+                                                    <td>{item.Jig_No}</td>
+                                                    <td>{item.Power_Box_No}</td>
+                                                    <td>{item.Target_Program_Ver}</td>
+                                                    <td>{item.Test_Program_Ver}</td>
+                                                    <td>{item.Detailed_Setting}</td>
+                                                    <td>{item.Function_Test_Sum}</td>
+                                                    <td>{item.Operator_Name}</td>
+                                                    <td>{item.Password_Ver}</td>
+                                                </tr>
+                                            })
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div className="row">
-                <div className="col-md-12">
-                    {
-                        pageAt > 0 && (<ul className="pagination justify-content-center">
-                            <li className={pageAt == 1 ? 'page-item disabled' : 'page-item'}><a className="page-link" href="#" onClick={handleGoingToPreviousPage}>Previous</a></li>
-                            <li className={isMaxPage ? 'page-item disabled' : 'page-item'}><a className="page-link" href="#" onClick={handleGoingToNextPage}>Next</a></li>
-                        </ul>)
-                    }
+                    <div className="row">
+                        <div className="col-md-12">
+                            {
+                                pageAt > 0 && (<ul className="pagination justify-content-center">
+                                    <li className={pageAt == 1 ? 'page-item disabled' : 'page-item'}><a className="page-link" href="#" onClick={handleGoingToPreviousPage}>Previous</a></li>
+                                    <li className={isMaxPage ? 'page-item disabled' : 'page-item'}><a className="page-link" href="#" onClick={handleGoingToNextPage}>Next</a></li>
+                                </ul>)
+                            }
 
-                </div>
-            </div>
-        </Container>
+                        </div>
+                    </div>
+                </Container>
+            }
+        </>
+
+
     )
 }

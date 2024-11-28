@@ -1,18 +1,17 @@
 import { useEffect } from "react"
-import Home from "./Home"
+import { Outlet } from "react-router"
+
 
 export default function Dashboard({ userInfo }) {
 
     useEffect(() => {
         if (localStorage.getItem('token')) {
-        } else {
+        } else { 
             window.location.href = '/iei'
         }
     }, [])
 
     return (
-        <>
-            <Home userInfo={userInfo} />
-        </>
+        <Outlet />
     )
 }

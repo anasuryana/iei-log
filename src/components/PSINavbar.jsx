@@ -16,17 +16,17 @@ export default function PSINavbar({ userInfo, onShowOffCanvas }) {
                             </NavLink>
                         </Nav.Item>
                         <Nav.Item>
-                            <NavLink to="/ict" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
+                            <NavLink to="/dashboard/ict" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
                                 ICT
                             </NavLink>
                         </Nav.Item>
                         <Nav.Item>
-                            <NavLink to="/qpit" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
+                            <NavLink to="/dashboard/qpit" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
                                 QPIT
                             </NavLink>
                         </Nav.Item>
                         <Nav.Item>
-                            <NavLink to="/about" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
+                            <NavLink to="/dashboard/about" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
                                 About
                             </NavLink>
                         </Nav.Item>

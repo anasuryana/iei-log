@@ -8,6 +8,7 @@ import axios from "axios"
 import PSIOffCanvas from "./components/PSIOffCanvas"
 import ICT from "./pages/ICT"
 import QPIT from "./pages/QPIT"
+import Home from "./pages/Home"
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -57,12 +58,17 @@ export default function App() {
         </> : ''
       }
       <Routes>
-        <Route path="/" element={<Login onLoggedIn={handleLoggedIn} />} />
-        <Route path="/dashboard" element={<Dashboard userInfo={userInfo} />} />
-        <Route path="/ict" element={<ICT userInfo={userInfo} />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/qpit" element={<QPIT userInfo={userInfo} />} />
-        
+        <Route index element={<Login onLoggedIn={handleLoggedIn} />} />
+        <Route path="dashboard" element={<Dashboard userInfo={userInfo} />} >
+          <Route index element={<Home userInfo={userInfo} />} />
+          <Route path="ict" element={<ICT userInfo={userInfo} />} />
+          <Route path="about" element={<About />} />
+          <Route path="qpit" element={<QPIT userInfo={userInfo} />} />
+          <Route path="*" element={<Dashboard userInfo={userInfo} />} />
+        </Route>
+        <Route>
+          <Route path="*" element={<Dashboard userInfo={userInfo} />} />
+        </Route>
       </Routes>
     </div>
   )
