@@ -228,7 +228,7 @@ export default function QPIT({ userInfo }) {
                                             <th rowSpan={2} className="align-middle">Assy No</th>
                                             <th rowSpan={2} className="align-middle">Type</th>
                                             <th rowSpan={2} className="align-middle">Model</th>
-                                            <th colSpan={4} className="align-middle">Error</th>
+                                            <th colSpan={5} className="align-middle">Error</th>
                                             <th rowSpan={2} className="align-middle">Line</th>
                                             <th rowSpan={2} className="align-middle">Shift</th>
                                             <th rowSpan={2} className="align-middle">PC No</th>
@@ -245,6 +245,7 @@ export default function QPIT({ userInfo }) {
                                             <th style={{ whiteSpace: 'nowrap' }}>Time</th>
                                             <th style={{ whiteSpace: 'nowrap' }}>Process</th>
                                             <th style={{ whiteSpace: 'nowrap' }}>Result</th>
+                                            <th style={{ whiteSpace: 'nowrap' }}>Code</th>
                                             <th style={{ whiteSpace: 'nowrap' }}>Class</th>
                                             <th style={{ whiteSpace: 'nowrap' }}>Address</th>
                                             <th style={{ whiteSpace: 'nowrap' }}>Details</th>
@@ -262,6 +263,7 @@ export default function QPIT({ userInfo }) {
                                                     <td>{item.AssyNo}</td>
                                                     <td>{item.BoardNo}</td>
                                                     <td>{item.PdtNo}</td>
+                                                    <td>{item.Error_Code}</td>
                                                     <td>{item.Error_Class}</td>
                                                     <td>{item.Error_Address}</td>
                                                     <td>{item.Error_Details}</td>
