@@ -221,26 +221,22 @@ export default function ICT({ userInfo }) {
                         <table className="table align-middle table-sm table-bordered table-hover">
                             <thead className="text-center table-dark">
                                 <tr className="first">
-                                    <th colSpan={3} className="align-middle">Test</th>
-                                    <th rowSpan={2} className="align-middle">Production Control No</th>
-                                    <th rowSpan={2} className="align-middle">Assy No</th>
-                                    <th rowSpan={2} className="align-middle">Type</th>
-                                    <th rowSpan={2} className="align-middle">Model</th>
-                                    <th colSpan={3} className="align-middle">Error</th>
-                                    <th rowSpan={2} className="align-middle">Notes</th>
-                                    <th rowSpan={2} className="align-middle">Line</th>
-                                    <th rowSpan={2} className="align-middle">Shift</th>
-                                    <th rowSpan={2} className="align-middle">ICT No</th>
-                                    <th rowSpan={2} className="align-middle">Jig No</th>
-                                    <th rowSpan={2} className="align-middle">Operator</th>
-                                </tr>
-                                <tr className="second">
-                                    <th style={{ whiteSpace: 'nowrap' }}>Time</th>
-                                    <th style={{ whiteSpace: 'nowrap' }}>Process</th>
-                                    <th style={{ whiteSpace: 'nowrap' }}>Result</th>
-                                    <th style={{ whiteSpace: 'nowrap' }}>Class</th>
-                                    <th style={{ whiteSpace: 'nowrap' }}>Address</th>
-                                    <th style={{ whiteSpace: 'nowrap' }}>Details</th>
+                                    <th className="align-middle">Test Time</th>
+                                    <th className="align-middle">Test Process</th>
+                                    <th className="align-middle">Production Control No</th>
+                                    <th className="align-middle">Assy No</th>
+                                    <th className="align-middle">Type</th>
+                                    <th className="align-middle">Model</th>
+                                    <th className="align-middle">Test Result</th>
+                                    <th className="align-middle">Error Class</th>
+                                    <th className="align-middle">Error Address</th>
+                                    <th className="align-middle">Error Details</th>
+                                    <th className="align-middle">Notes</th>
+                                    <th className="align-middle">Line</th>
+                                    <th className="align-middle">Shift</th>
+                                    <th className="align-middle">ICT No</th>
+                                    <th className="align-middle">Jig No</th>
+                                    <th className="align-middle">Operator</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -249,11 +245,11 @@ export default function ICT({ userInfo }) {
                                         return <tr key={index} className="font-monospace">
                                             <td>{item.Test_Time}</td>
                                             <td>{item.Test_Process}</td>
-                                            <td>{item.Test_Result}</td>
                                             <td>{item.Production_Control_No}</td>
                                             <td>{item.AssyNo}</td>
                                             <td>{item.BoardNo}</td>
                                             <td>{item.PdtNo}</td>
+                                            <td>{item.Test_Result}</td>
                                             <td>{item.Error_Class}</td>
                                             <td>{item.Error_Address}</td>
                                             <td>{item.Error_Details}</td>
