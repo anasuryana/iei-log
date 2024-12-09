@@ -1,9 +1,10 @@
 import axios from "axios";
 import { useState } from "react";
-
+import { useNavigate } from "react-router";
 import { Offcanvas } from "react-bootstrap"
 export default function PSIOffCanvas({ onLoggedIn, showOffCanvas, userInfo, onCloseOffCanvas }) {
     const [isSigning, setIsSigning] = useState(false)
+    let navigate = useNavigate()
     function handleSignout() {
 
         if (confirm('Are you sure ?')) {
@@ -19,9 +20,14 @@ export default function PSIOffCanvas({ onLoggedIn, showOffCanvas, userInfo, onCl
                     localStorage.removeItem('token')
                     onLoggedIn(false)
                     onCloseOffCanvas()
-                    window.location.href = '/iei'
+                    navigate('/')
                 }).catch(error => {
-                    console.log(error)
+                    if (error.status) {
+                        if (error.status === 401) {
+                            localStorage.removeItem('token')
+                            navigate('/')
+                        }
+                    }
                     setIsSigning(false)
                 })
         }
