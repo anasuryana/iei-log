@@ -29,6 +29,12 @@ export default function App() {
           setUserInfo({ ...datanya })
         }).catch(error => {
           console.log({ at: 'app.jsx', error })
+          if (error.status) {
+            if (error.status === 401) {
+              localStorage.removeItem('token')
+              navigate('/')
+            }
+          }
         })
     }
   }
