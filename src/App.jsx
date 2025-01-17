@@ -9,6 +9,7 @@ import PSIOffCanvas from "./components/PSIOffCanvas"
 import ICT from "./pages/ICT"
 import QPIT from "./pages/QPIT"
 import Home from "./pages/Home"
+import RepairData from "./pages/RepairData"
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -70,6 +71,7 @@ export default function App() {
           <Route path="ict" element={<ICT userInfo={userInfo} />} />
           <Route path="about" element={<About />} />
           <Route path="qpit" element={<QPIT userInfo={userInfo} />} />
+          <Route path="repair" element={<RepairData userInfo={userInfo} />} />
           <Route path="*" element={<Dashboard userInfo={userInfo} />} />
         </Route>
         <Route>

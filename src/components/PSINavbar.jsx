@@ -36,6 +36,11 @@ export default function PSINavbar({ userInfo, onShowOffCanvas }) {
                             </NavLink>
                         </Nav.Item>
                         <Nav.Item>
+                            <NavLink to="/dashboard/repair" onClick={handleNavCollapse} className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
+                                Repair Data
+                            </NavLink>
+                        </Nav.Item>
+                        <Nav.Item>
                             <NavLink to="/dashboard/about" onClick={handleNavCollapse} className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
                                 About
                             </NavLink>
