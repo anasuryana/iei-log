@@ -1,7 +1,6 @@
 
 import '../home.css'
-import { Badge, Button, Container, Modal } from "react-bootstrap"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Container } from "react-bootstrap"
 
 export default function Home({ userInfo }) {
     return (

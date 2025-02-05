@@ -113,12 +113,12 @@ export default function QPIT({ userInfo }) {
         goToPage(pageAt + 1)
     }
 
-    function handleClickExport() {
+    function handleClickExport(fileType) {
         const params = new URLSearchParams(formData).toString()
         setIsExporting(true)
         if (confirm('Are you sure want to export the data ?')) {
             axios({
-                url: import.meta.env.VITE_APP_ENDPOINT + '/qpit/trace-to-spreadsheet?' + params,
+                url: import.meta.env.VITE_APP_ENDPOINT + '/qpit/trace-to-spreadsheet?' + params + '&file_type=' + fileType,
                 method: 'GET',
                 responseType: 'blob',
                 headers: {
@@ -126,7 +126,7 @@ export default function QPIT({ userInfo }) {
                 }
             }).then(response => {
                 setIsExporting(false)
-                saveAs(response.data, 'QPIT Logs ' + Date.now() + ' .xlsx')
+                saveAs(response.data, 'QPIT Logs ' + Date.now() + ' .' + fileType)
             }).catch(error => {
                 setIsExporting(false)
             })
@@ -206,7 +206,8 @@ export default function QPIT({ userInfo }) {
                                 <div className="btn-group btn-group-sm" role="group" aria-label="Basic example">
                                     <button type="button" className="btn btn-primary" disabled={isSearching} onClick={handleClickSearch}>Search</button>
                                     <button type="reset" className="btn btn-outline-primary">Reset search criteria</button>
-                                    <button type="button" className="btn btn-success" title="Export to spreadsheet file" onClick={handleClickExport} disabled={isExporting}><FontAwesomeIcon icon={faFileExcel} /></button>
+                                    <button type="button" className="btn btn-success" title="Export to spreadsheet file" onClick={() => handleClickExport('xlsx')} disabled={isExporting}><FontAwesomeIcon icon={faFileExcel} /></button>
+                                    <button type="button" className="btn btn-outline-success" title="Export to CSV file" onClick={() => handleClickExport('csv')} disabled={isExporting}>CSV</button>
                                 </div>
                             </div>
                             <div className="col-md-4 mb-3 text-center">
