@@ -57,8 +57,10 @@ export default function QPIT({ userInfo }) {
             }px`
         const currentDate = new Date().toISOString().substring(0, 10)
 
-        refInputDate1.current.value = currentDate
-        refInputDate2.current.value = currentDate
+        if (refInputDate1.current && refInputDate2.current) {
+            refInputDate1.current.value = currentDate
+            refInputDate2.current.value = currentDate
+        }
 
         setFormData({
             period1: currentDate,
@@ -134,172 +136,170 @@ export default function QPIT({ userInfo }) {
     }
 
     return (
-        <>
-            {
-                userInfo.name.includes('init') ? userInfo.name : <Container fluid>
-                    <form>
-                        <div className="row mt-3" id="stack1">
-                            <div className="col-md-6">
-                                <div className="input-group input-group-sm mb-1">
-                                    <span className="input-group-text" > Period from</span>
-                                    <input type="date" className="form-control" name="period1" onChange={handleChange} ref={refInputDate1} />
-                                    <span className="input-group-text" >To</span>
-                                    <input type="date" className="form-control" name="period2" onChange={handleChange} ref={refInputDate2} />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row" id="stack2">
-                            <div className="col-md-6">
-                                <div className="input-group input-group-sm mb-1">
-                                    <span className="input-group-text" >Production Control</span>
-                                    <input type="text" className="form-control" name="production_control" maxLength={15} onChange={handleChange} />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row" id="stack3">
-                            <div className="col-md-3">
-                                <div className="input-group input-group-sm mb-1">
-                                    <span className="input-group-text" >Assy No</span>
-                                    <input type="text" className="form-control" name="assy_no" maxLength={50} onChange={handleChange} />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row" id="stack4">
-                            <div className="col-md-6">
-                                <div className="input-group input-group-sm mb-1">
-                                    <span className="input-group-text">Type</span>
-                                    <input type="text" className="form-control" name="type" maxLength={50} onChange={handleChange} />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row" id="stack5">
-                            <div className="col-md-6">
-                                <div className="input-group input-group-sm mb-1">
-                                    <span className="input-group-text">Model</span>
-                                    <input type="text" className="form-control" name="model" maxLength={50} onChange={handleChange} />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row" id="stack6">
-                            <div className="col-md-6">
-                                <div className="input-group input-group-sm mb-1">
-                                    <span className="input-group-text">Test Result</span>
-                                    <select className="form-select" name="test_result" onChange={handleChange}>
-                                        <option value={'-'}>Please select</option>
-                                        <option value={'PASS'}>PASS</option>
-                                        <option value={'FAIL'}>FAIL</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row" id="stack7">
-                            <div className="col-md-6">
-                                <div className="input-group input-group-sm mb-1">
-                                    <span className="input-group-text">Line</span>
-                                    <input type="text" className="form-control" name="line" maxLength={50} onChange={handleChange} />
-                                </div>
-                            </div>
-                        </div>
 
-                        <div className="row" id="stack8">
-                            <div className="col-md-4 mb-3">
-                                <div className="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                    <button type="button" className="btn btn-primary" disabled={isSearching} onClick={handleClickSearch}>Search</button>
-                                    <button type="reset" className="btn btn-outline-primary">Reset search criteria</button>
-                                    <button type="button" className="btn btn-success" title="Export to spreadsheet file" onClick={() => handleClickExport('xlsx')} disabled={isExporting}><FontAwesomeIcon icon={faFileExcel} /></button>
-                                    <button type="button" className="btn btn-outline-success" title="Export to CSV file" onClick={() => handleClickExport('csv')} disabled={isExporting}>CSV</button>
-                                </div>
-                            </div>
-                            <div className="col-md-4 mb-3 text-center">
 
-                            </div>
-                            <div className="col-md-4 mb-3 text-end">
-                                {isSearching ? '' : <Badge bg="info">{rowData.data.length > 0 ? rowData.data.length + ' rows found (page ' + pageAt + ')' : ''}</Badge>}
-                            </div>
+        <Container fluid>
+            <form>
+                <div className="row mt-3" id="stack1">
+                    <div className="col-md-6">
+                        <div className="input-group input-group-sm mb-1">
+                            <span className="input-group-text" > Period from</span>
+                            <input type="date" className="form-control" name="period1" onChange={handleChange} ref={refInputDate1} />
+                            <span className="input-group-text" >To</span>
+                            <input type="date" className="form-control" name="period2" onChange={handleChange} ref={refInputDate2} />
                         </div>
-                    </form>
-                    <div className="row">
-                        <div className="col-md-12 mb-1">
-                            <div className="table-responsive" id="coba">
-                                <table className="table align-middle table-sm table-bordered table-hover">
-                                    <thead className="text-center table-dark">
-                                        <tr className="first">
-                                            <th className="align-middle">Test Time</th>
-                                            <th className="align-middle">Test Process</th>
-                                            <th className="align-middle" style={{ whiteSpace: 'nowrap' }}>Production Control No</th>
-                                            <th className="align-middle">Assy No</th>
-                                            <th className="align-middle">Type</th>
-                                            <th className="align-middle">Model</th>
-                                            <th className="align-middle">Test Result</th>
-                                            <th className="align-middle">Error Code</th>
-                                            <th className="align-middle">Error Class</th>
-                                            <th className="align-middle">Error Details</th>
-                                            <th className="align-middle">Error Address</th>
-                                            <th className="align-middle">Error Pin No</th>
-                                            <th className="align-middle">Line</th>
-                                            <th className="align-middle">Shift</th>
-                                            <th className="align-middle">PC No</th>
-                                            <th className="align-middle">Jig No</th>
-                                            <th className="align-middle" style={{ whiteSpace: 'nowrap' }}>Power Box No</th>
-                                            <th className="align-middle" style={{ whiteSpace: 'nowrap' }}>QPITPC System Program Ver</th>
-                                            <th className="align-middle" style={{ whiteSpace: 'nowrap' }}>Target Program Ver</th>
-                                            <th className="align-middle" style={{ whiteSpace: 'nowrap' }}>Test Program Ver</th>
-                                            <th className="align-middle" style={{ whiteSpace: 'nowrap' }}>Detail Setting</th>
-                                            <th className="align-middle" style={{ whiteSpace: 'nowrap' }}>Function Test Sum</th>
-                                            <th className="align-middle">Operator</th>
-                                            <th className="align-middle" style={{ whiteSpace: 'nowrap' }}>Password Ver</th>
+                    </div>
+                </div>
+                <div className="row" id="stack2">
+                    <div className="col-md-6">
+                        <div className="input-group input-group-sm mb-1">
+                            <span className="input-group-text" >Production Control</span>
+                            <input type="text" className="form-control" name="production_control" maxLength={15} onChange={handleChange} />
+                        </div>
+                    </div>
+                </div>
+                <div className="row" id="stack3">
+                    <div className="col-md-3">
+                        <div className="input-group input-group-sm mb-1">
+                            <span className="input-group-text" >Assy No</span>
+                            <input type="text" className="form-control" name="assy_no" maxLength={50} onChange={handleChange} />
+                        </div>
+                    </div>
+                </div>
+                <div className="row" id="stack4">
+                    <div className="col-md-6">
+                        <div className="input-group input-group-sm mb-1">
+                            <span className="input-group-text">Type</span>
+                            <input type="text" className="form-control" name="type" maxLength={50} onChange={handleChange} />
+                        </div>
+                    </div>
+                </div>
+                <div className="row" id="stack5">
+                    <div className="col-md-6">
+                        <div className="input-group input-group-sm mb-1">
+                            <span className="input-group-text">Model</span>
+                            <input type="text" className="form-control" name="model" maxLength={50} onChange={handleChange} />
+                        </div>
+                    </div>
+                </div>
+                <div className="row" id="stack6">
+                    <div className="col-md-6">
+                        <div className="input-group input-group-sm mb-1">
+                            <span className="input-group-text">Test Result</span>
+                            <select className="form-select" name="test_result" onChange={handleChange}>
+                                <option value={'-'}>Please select</option>
+                                <option value={'PASS'}>PASS</option>
+                                <option value={'FAIL'}>FAIL</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div className="row" id="stack7">
+                    <div className="col-md-6">
+                        <div className="input-group input-group-sm mb-1">
+                            <span className="input-group-text">Line</span>
+                            <input type="text" className="form-control" name="line" maxLength={50} onChange={handleChange} />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="row" id="stack8">
+                    <div className="col-md-4 mb-3">
+                        <div className="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                            <button type="button" className="btn btn-primary" disabled={isSearching} onClick={handleClickSearch}>Search</button>
+                            <button type="reset" className="btn btn-outline-primary">Reset search criteria</button>
+                            <button type="button" className="btn btn-success" title="Export to spreadsheet file" onClick={() => handleClickExport('xlsx')} disabled={isExporting}><FontAwesomeIcon icon={faFileExcel} /></button>
+                            <button type="button" className="btn btn-outline-success" title="Export to CSV file" onClick={() => handleClickExport('csv')} disabled={isExporting}>CSV</button>
+                        </div>
+                    </div>
+                    <div className="col-md-4 mb-3 text-center">
+
+                    </div>
+                    <div className="col-md-4 mb-3 text-end">
+                        {isSearching ? '' : <Badge bg="info">{rowData.data.length > 0 ? rowData.data.length + ' rows found (page ' + pageAt + ')' : ''}</Badge>}
+                    </div>
+                </div>
+            </form>
+            <div className="row">
+                <div className="col-md-12 mb-1">
+                    <div className="table-responsive" id="coba">
+                        <table className="table align-middle table-sm table-bordered table-hover">
+                            <thead className="text-center table-dark">
+                                <tr className="first">
+                                    <th className="align-middle">Test Time</th>
+                                    <th className="align-middle">Test Process</th>
+                                    <th className="align-middle" style={{ whiteSpace: 'nowrap' }}>Production Control No</th>
+                                    <th className="align-middle">Assy No</th>
+                                    <th className="align-middle">Type</th>
+                                    <th className="align-middle">Model</th>
+                                    <th className="align-middle">Test Result</th>
+                                    <th className="align-middle">Error Code</th>
+                                    <th className="align-middle">Error Class</th>
+                                    <th className="align-middle">Error Details</th>
+                                    <th className="align-middle">Error Address</th>
+                                    <th className="align-middle">Error Pin No</th>
+                                    <th className="align-middle">Line</th>
+                                    <th className="align-middle">Shift</th>
+                                    <th className="align-middle">PC No</th>
+                                    <th className="align-middle">Jig No</th>
+                                    <th className="align-middle" style={{ whiteSpace: 'nowrap' }}>Power Box No</th>
+                                    <th className="align-middle" style={{ whiteSpace: 'nowrap' }}>QPITPC System Program Ver</th>
+                                    <th className="align-middle" style={{ whiteSpace: 'nowrap' }}>Target Program Ver</th>
+                                    <th className="align-middle" style={{ whiteSpace: 'nowrap' }}>Test Program Ver</th>
+                                    <th className="align-middle" style={{ whiteSpace: 'nowrap' }}>Detail Setting</th>
+                                    <th className="align-middle" style={{ whiteSpace: 'nowrap' }}>Function Test Sum</th>
+                                    <th className="align-middle">Operator</th>
+                                    <th className="align-middle" style={{ whiteSpace: 'nowrap' }}>Password Ver</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    isSearching ? <tr><td colSpan={16}>Please wait</td></tr> : rowData.data.map((item, index) => {
+                                        return <tr key={index} className="font-monospace">
+                                            <td>{item.Test_Time}</td>
+                                            <td>{item.Test_Process}</td>
+                                            <td>{item.Production_Control_No}</td>
+                                            <td>{item.AssyNo}</td>
+                                            <td>{item.BoardNo}</td>
+                                            <td>{item.PdtNo}</td>
+                                            <td>{item.Test_Result}</td>
+                                            <td>{item.Error_Code}</td>
+                                            <td>{item.Error_Class}</td>
+                                            <td>{item.Error_Details}</td>
+                                            <td>{item.Error_Address}</td>
+                                            <td>{item.Error_Pin_No}</td>
+                                            <td>{item.Line_Name}</td>
+                                            <td style={{ whiteSpace: 'nowrap' }}>{item.Shift_Name}</td>
+                                            <td>{item.PC_No}</td>
+                                            <td>{item.Jig_No}</td>
+                                            <td>{item.Power_Box_No}</td>
+                                            <td>{item.QPITPC_System_Program_Ver}</td>
+                                            <td>{item.Target_Program_Ver}</td>
+                                            <td>{item.Test_Program_Ver}</td>
+                                            <td>{item.Detailed_Setting}</td>
+                                            <td>{item.Function_Test_Sum}</td>
+                                            <td>{item.Operator_Name}</td>
+                                            <td>{item.Password_Ver}</td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        {
-                                            isSearching ? <tr><td colSpan={16}>Please wait</td></tr> : rowData.data.map((item, index) => {
-                                                return <tr key={index} className="font-monospace">
-                                                    <td>{item.Test_Time}</td>
-                                                    <td>{item.Test_Process}</td>
-                                                    <td>{item.Production_Control_No}</td>
-                                                    <td>{item.AssyNo}</td>
-                                                    <td>{item.BoardNo}</td>
-                                                    <td>{item.PdtNo}</td>
-                                                    <td>{item.Test_Result}</td>
-                                                    <td>{item.Error_Code}</td>
-                                                    <td>{item.Error_Class}</td>
-                                                    <td>{item.Error_Details}</td>
-                                                    <td>{item.Error_Address}</td>
-                                                    <td>{item.Error_Pin_No}</td>
-                                                    <td>{item.Line_Name}</td>
-                                                    <td style={{ whiteSpace: 'nowrap' }}>{item.Shift_Name}</td>
-                                                    <td>{item.PC_No}</td>
-                                                    <td>{item.Jig_No}</td>
-                                                    <td>{item.Power_Box_No}</td>
-                                                    <td>{item.QPITPC_System_Program_Ver}</td>
-                                                    <td>{item.Target_Program_Ver}</td>
-                                                    <td>{item.Test_Program_Ver}</td>
-                                                    <td>{item.Detailed_Setting}</td>
-                                                    <td>{item.Function_Test_Sum}</td>
-                                                    <td>{item.Operator_Name}</td>
-                                                    <td>{item.Password_Ver}</td>
-                                                </tr>
-                                            })
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                                    })
+                                }
+                            </tbody>
+                        </table>
                     </div>
-                    <div className="row">
-                        <div className="col-md-12">
-                            {
-                                pageAt > 0 && (<ul className="pagination justify-content-center">
-                                    <li className={pageAt == 1 ? 'page-item disabled' : 'page-item'}><a className="page-link" href="#" onClick={handleGoingToPreviousPage}>Previous</a></li>
-                                    <li className={isMaxPage ? 'page-item disabled' : 'page-item'}><a className="page-link" href="#" onClick={handleGoingToNextPage}>Next</a></li>
-                                </ul>)
-                            }
+                </div>
+            </div>
+            <div className="row">
+                <div className="col-md-12">
+                    {
+                        pageAt > 0 && (<ul className="pagination justify-content-center">
+                            <li className={pageAt == 1 ? 'page-item disabled' : 'page-item'}><a className="page-link" href="#" onClick={handleGoingToPreviousPage}>Previous</a></li>
+                            <li className={isMaxPage ? 'page-item disabled' : 'page-item'}><a className="page-link" href="#" onClick={handleGoingToNextPage}>Next</a></li>
+                        </ul>)
+                    }
 
-                        </div>
-                    </div>
-                </Container>
-            }
-        </>
+                </div>
+            </div>
+        </Container>
 
 
     )
